@@ -1,57 +1,58 @@
 package entity
 
-
+// User : class user with member name, pw, email and phone
 type User struct {
 	Name, Password, Email, Phone string
 }
-func (m_User User) init(t_Name, t_Password, t_Email, t_Phone string) {
-	m_User.Name= t_Name
-	m_User.Password= t_Password
-	m_User.Email= t_Email
-	m_User.Phone= t_Phone
+
+func (mUser User) init(tName, tPassword, tEmail, tPhone string) {
+	mUser.Name= tName
+	mUser.Password= tPassword
+	mUser.Email= tEmail
+	mUser.Phone= tPhone
 }
 
 
-func (m_User User) CopyUser(t_user User) {
-	m_User.Name= t_user.Name
-	m_User.Password= t_user.Password
-	m_User.Email= t_user.Email
-	m_User.Phone= t_user.Phone
+func (mUser User) CopyUser(t_user User) {
+	mUser.Name= t_user.Name
+	mUser.Password= t_user.Password
+	mUser.Email= t_user.Email
+	mUser.Phone= t_user.Phone
 }
 
-func (m_User User) GetName() string {
-	return m_User.Name;
-}
-
-
-func (m_User User) SetName(t_name string) {
-	m_User.Name = t_name;
+func (mUser User) GetName() string {
+	return mUser.Name;
 }
 
 
-func (m_User User) GetPassword() string {
-	return m_User.Password;
-}
-
-func (m_User User) SetPassword(t_password string) {
-	m_User.Password = t_password;
+func (mUser User) SetName(tName string) {
+	mUser.Name = tName;
 }
 
 
-func (m_User User) GetEmail() string {
-	return m_User.Email;
+func (mUser User) GetPassword() string {
+	return mUser.Password;
+}
+
+func (mUser User) SetPassword(tPassword string) {
+	mUser.Password = tPassword;
 }
 
 
-func (m_User User) SetEmail(t_email string) {
-	m_User.Email = t_email;
+func (mUser User) GetEmail() string {
+	return mUser.Email;
 }
 
 
-func (m_User User) GetPhone() string {
-	return m_User.Phone;
+func (mUser User) SetEmail(tEmail string) {
+	mUser.Email = tEmail;
 }
 
-func (m_User User) SetPhone(t_phone string) {
-	m_User.Phone = t_phone;
+
+func (mUser User) GetPhone() string {
+	return mUser.Phone;
+}
+
+func (mUser User) SetPhone(tPhone string) {
+	mUser.Phone = tPhone;
 }
