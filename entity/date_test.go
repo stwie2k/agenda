@@ -65,7 +65,6 @@ func TestDateToString(t *testing.T) {
 		wantErr bool
 	}{
 		{"1996-12-09", args{Date{1996, 12, 9, 12, 0}}, "1996-12-09/12:00", false},
-		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -76,6 +75,30 @@ func TestDateToString(t *testing.T) {
 			}
 			if got != tt.want {
 				t.Errorf("DateToString() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDate_MoreThan(t *testing.T) {
+	type args struct {
+		tDate Date
+	}
+	tests := []struct {
+		name  string
+		mDate Date
+		args  args
+		want  bool
+	}{
+		{"more: 1 > 2", Date{2019,1,1,12,00}, args{Date{2019,2,1,12,00}}, false},
+		{"less: 1999 < 2019", Date{1999,1,1,12,00}, args{Date{2019,2,1,12,00}}, false},
+		{"equal: 1 = 1", Date{2019,2,1,12,00}, args{Date{2019,2,1,12,00}}, false},
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.mDate.MoreThan(tt.args.tDate); got != tt.want {
+				t.Errorf("Date.MoreThan() = %v, want %v", got, tt.want)
 			}
 		})
 	}
