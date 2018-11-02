@@ -21,7 +21,6 @@ func TestMeeting_init(t *testing.T) {
 			Meeting{"Steve", []string{"Steve", "gyakkun"}, Date{1996, 12, 9, 12, 0}, Date{2019, 1, 1, 12, 00}, "Create meeting test"},
 			args{"Steve", []string{"Steve", "gyakkun"}, Date{1996, 12, 9, 12, 0}, Date{2019, 1, 1, 12, 00}, "Create meeting test"},
 		},
-		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -41,13 +40,46 @@ func TestMeeting_GetSponsor(t *testing.T) {
 			Meeting{"Steve", []string{"Steve", "gyakkun"}, Date{1996, 12, 9, 12, 0}, Date{2019, 1, 1, 12, 00}, "Create meeting test"},
 			"Steve",
 		},
-
-		// TODO: Add test cases.
+		{
+			"Get Chinese sponsor test",
+			Meeting{"大佬", []string{"Steve", "gyakkun"}, Date{1996, 12, 9, 12, 0}, Date{2019, 1, 1, 12, 00}, "Create meeting test"},
+			"大佬",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.mMeeting.GetSponsor(); got != tt.want {
 				t.Errorf("Meeting.GetSponsor() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestMeeting_IsParticipator(t *testing.T) {
+	type args struct {
+		t_username string
+	}
+	tests := []struct {
+		name     string
+		mMeeting Meeting
+		args     args
+		want     bool
+	}{
+		{"Check if dalao is a participator",
+			Meeting{"大佬", []string{"大佬", "gyakkun"}, Date{1996, 12, 9, 12, 0}, Date{2019, 1, 1, 12, 00}, "Create meeting test"},
+			args{"大佬"},
+			true,
+		},
+		{"Check if dalao is a participator",
+			Meeting{"大佬", []string{"Steve", "gyakkun"}, Date{1996, 12, 9, 12, 0}, Date{2019, 1, 1, 12, 00}, "Create meeting test"},
+			args{"萌新"},
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.mMeeting.IsParticipator(tt.args.t_username); got != tt.want {
+				t.Errorf("Meeting.IsParticipator() = %v, want %v", got, tt.want)
 			}
 		})
 	}
