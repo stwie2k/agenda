@@ -38,5 +38,6 @@ func UpdateUser(filter uFilter, switcher uSwitcher) int {
 }
 func CreateMeeting(_meeting Meeting){
    meetinglist=append(meetinglist,_meeting)
-   
+
 }
+
