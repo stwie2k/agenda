@@ -1,266 +1,264 @@
 package entity
 
-// Date :
 import (
-    "fmt"
-    "strconv"
-    "errors"
-    // "agenda-go-cli/loghelper"
+	"errors"
+	"fmt"
+	"regexp"
+	"strconv"
+	// "agenda-go-cli/loghelper"
 )
+
+// Date : class with y, m, d, h and m
 type Date struct {
-    Year, Month, Day, Hour, Minute int
+	Year, Month, Day, Hour, Minute int
 }
 
-func (m_date Date) init(t_year, t_month, t_day, t_hour, t_minute int)  {
-    m_date.Year= t_year
-    m_date.Month= t_month
-    m_date.Day= t_day
-    m_date.Hour= t_hour
-    m_date.Minute= t_minute
+func (mDate Date) init(tYear, tMonth, tDay, tHour, tMinute int) {
+	mDate.Year = tYear
+	mDate.Month = tMonth
+	mDate.Day = tDay
+	mDate.Hour = tHour
+	mDate.Minute = tMinute
 }
-func (m_date Date) GetYear() int { 
-    return m_date.Year
+
+// GetYear : getter of year
+func (mDate Date) GetYear() int {
+	return mDate.Year
 }
-func (m_date Date) SetYear(t_year int) {
-    m_date.Year= t_year
+
+// SetYear : setter of year
+func (mDate Date) SetYear(tYear int) {
+	mDate.Year = tYear
 }
-func (m_date Date) GetMonth() int { 
-    return m_date.Month
+
+// GetMonth : getter of month
+func (mDate Date) GetMonth() int {
+	return mDate.Month
 }
-func (m_date Date) SetMonth(t_month int) {
-    m_date.Month= t_month
+
+// SetMonth : setter of month
+func (mDate Date) SetMonth(tMonth int) {
+	mDate.Month = tMonth
 }
-func (m_date Date) GetDay() int { 
-    return m_date.Day
+
+// GetDay : getter of day
+func (mDate Date) GetDay() int {
+	return mDate.Day
 }
-func (m_date Date) SetDay(t_day int) {
-    m_date.Day= t_day
+
+// SetDay : setter of day
+func (mDate Date) SetDay(tDay int) {
+	mDate.Day = tDay
 }
-func (m_date Date) GetHour() int { 
-    return m_date.Hour
+
+// GetHour : getter of Hour
+func (mDate Date) GetHour() int {
+	return mDate.Hour
 }
-func (m_date Date) SetHour(t_hour int) {
-    m_date.Hour= t_hour
+
+// SetHour : setter of Hour
+func (mDate Date) SetHour(tHour int) {
+	mDate.Hour = tHour
 }
-func (m_date Date) GetMinute() int { 
-    return m_date.Minute
+
+// GetMinute : getter of minute
+func (mDate Date) GetMinute() int {
+	return mDate.Minute
 }
-func (m_date Date) SetMinute(t_minute int) {
-    m_date.Minute= t_minute
+
+// SetMinute : setter of minute
+func (mDate Date) SetMinute(tMinute int) {
+	mDate.Minute = tMinute
 }
 
 /**
 *   @brief check whether the date is valid or not
 *   @return the bool indicate valid or not
-*/
-func IsValid(t_date Date) bool {
-    var current_year int= t_date.GetYear()
-    var current_month int= t_date.GetMonth()
-    var current_day int= t_date.GetDay()
-    if current_year < 1000 || current_year > 9999 || current_month < 1 ||
-        current_month > 12 || current_day < 1 || t_date.GetHour() < 0 ||
-        t_date.GetHour() >= 24 || t_date.GetMinute() < 0 ||
-        t_date.GetMinute() >= 60 {
-        return false
-    }
-    if current_month == 1 || current_month == 3 || current_month == 5 ||
-        current_month == 7 || current_month == 8 || current_month == 10 ||
-        current_month == 12 {
-        if current_day > 31 {
-            return false
-        }
-     } else if current_month == 4 || current_month == 6 || current_month == 9 ||
-               current_month == 11 {
-        if current_day > 30 {
-            return false
-        }
-     } else {
-        //若年份为闰年，则2月29天
-        if (current_year % 4 == 0 && current_year % 100 != 0) ||
-            (current_year % 400 == 0) {
-            if current_day > 29 {
-                return false
-            }
-        } else {
-            if current_day > 28 {
-                return false
-            }
-        }
-    }
-    return true
+ */
+func IsValid(tDate Date) bool {
+	var dayOfMonths = [12]int{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+	var currentYear = tDate.GetYear()
+	var currentMonth = tDate.GetMonth()
+	var currentDay = tDate.GetDay()
+	//Check if date in normal range
+	if currentYear < 1000 || currentYear > 9999 || currentMonth < 1 ||
+		currentMonth > 12 || currentDay < 1 || tDate.GetHour() < 0 ||
+		tDate.GetHour() >= 24 || tDate.GetMinute() < 0 ||
+		tDate.GetMinute() >= 60 {
+		return false
+	}
+
+	if currentMonth != 2 && currentDay > dayOfMonths[currentMonth-1] {
+		return false
+	} else {
+		//Check if leap year.
+		if (currentYear%4 == 0 && currentYear%100 != 0) ||
+			(currentYear%400 == 0) {
+			if currentDay > 29 {
+				return false
+			}
+		} else {
+			if currentDay > 28 {
+				return false
+			}
+		}
+	}
+	defer fmt.Println("Error: Invalid Date.")
+	return true
 }
+
 /**
 * @brief convert string to int
-*/
+ */
 func String2Int(s string) int {
-    result,error :=strconv.Atoi(s)
-    if error != nil{
-        fmt.Println(error)
-    }
-    return result
+	result, err := strconv.Atoi(s)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return result
 }
+
 /**
 * @brief convert a string to date, if the format is not correct return
 * 0000-00-00/00:00
 * @return a date
-*/
-func StringToDate(t_dateString string) (Date, error) {
-    var resultDate Date
-    //检查字符串的格式是否正确．
-    if (len(t_dateString) != 16) {
-        return resultDate, errors.New("wrong")
-    }
-    var count int = 0 
-    for count < len(t_dateString) {
-        switch count {
-            case 4:
-                if t_dateString[4] != '-' {
-                    return resultDate, errors.New("wrong")
-                }
-                break
-            case 7:
-                if t_dateString[7] != '-' {
-                    return resultDate, errors.New("wrong")
-                }
-                break
-            case 10:
-                if t_dateString[10] != '/' {
-                    return resultDate, errors.New("wrong")
-                }
-                break
-            case 13:
-                if t_dateString[13] != ':' {
-                    return resultDate, errors.New("wrong")
-                }
-                break
-            default:
-                if t_dateString[count] < '0' || t_dateString[count] > '9' {
-                    return resultDate, errors.New("wrong")
-                }
-        }
-        count++
-    }
-    //若字符串格式没问题
+ */
+func StringToDate(tDateString string) (Date, error) {
+	var datePattern = `[\d]{4}-[\d]{2}-[\d]{2}\/[\d]{2}:[\d]{2}`
+	var resultDate Date
 
-    // resultDate.SetYear(String2Int(t_dateString[0:4]))
-    resultDate.Year = String2Int(t_dateString[0:4])
-    // resultDate.SetMonth(String2Int(t_dateString[5:7]))
-    resultDate.Month = String2Int(t_dateString[5:7])
-    // resultDate.SetDay(String2Int(t_dateString[8:10]))
-    resultDate.Day = String2Int(t_dateString[8:10])
-    // resultDate.SetHour(String2Int(t_dateString[11:13]))
-    resultDate.Hour = String2Int(t_dateString[11:13])
-    // resultDate.SetMinute(String2Int(t_dateString[14:]))
-    resultDate.Minute = String2Int(t_dateString[14:])
-    return resultDate,nil
+	//Use regexp to check if parttern matched
+
+	isValid, _ := regexp.Match(datePattern, []byte(tDateString))
+
+	if isValid != true {
+		return resultDate, errors.New("Invalid string format")
+	}
+
+	resultDate.Year = String2Int(tDateString[0:4])
+	resultDate.Month = String2Int(tDateString[5:7])
+	resultDate.Day = String2Int(tDateString[8:10])
+	resultDate.Hour = String2Int(tDateString[11:13])
+	resultDate.Minute = String2Int(tDateString[14:])
+	return resultDate, nil
 }
+
 /**
 *   @brief convert the date to string, if result length is 1, add padding 0
-*/
-func Int2String(a int) string{
-    var result_string string
-    result_string=strconv.Itoa(a)  
-    return result_string
+ */
+func Int2String(a int) string {
+	var resultString string
+	resultString = strconv.Itoa(a)
+	return resultString
 }
+
 /**
 * @brief convert a date to string, if the format is not correct return
 * 0000-00-00/00:00
-*/
+ */
+func DateToString(tDate Date) (string, error) {
+	var dateString = ""
+	var wString = ""
+	var initTime = "0000-00-00/00:00"
+	if !IsValid(tDate) {
+		dateString = initTime
+		return dateString, nil
+	}
+	// dateString = Int2String(tDate.GetYear()) + "-" + Int2String(tDate.GetMonth()) +
+	// 	"-" + Int2String(tDate.GetDay()) + "/" + Int2String(tDate.GetHour()) +
+	// 	":" + Int2String(tDate.GetMinute())
 
-func DateToString(t_date Date) (string, error) {
-    var dateString string = ""
-    var wString string = ""
-    var initTime string = "0000-00-00/00:00"
-    //若date的格式错误，则返回初始时间串0000-00-00/00:00
-    if !IsValid(t_date) {
-        dateString = initTime
-        return dateString,nil
-    }
-    dateString = Int2String(t_date.GetYear()) + "-" + Int2String(t_date.GetMonth()) +
-        "-" + Int2String(t_date.GetDay()) + "/" + Int2String(t_date.GetHour()) +
-        ":" + Int2String(t_date.GetMinute())
-    if dateString != wString {
-        return dateString, nil
-    } else {
-        return dateString, errors.New("wrong")
-    }
+	dateStringWithZero := fmt.Sprintf("%04d", tDate.GetYear()) + "-" + fmt.Sprintf("%02d", tDate.GetMonth()) +
+		"-" + fmt.Sprintf("%02d", tDate.GetDay()) + "/" + fmt.Sprintf("%02d", tDate.GetHour()) + 
+		":" + fmt.Sprintf("%02d", tDate.GetMinute())
+
+	if dateStringWithZero != wString {
+		return dateStringWithZero, nil
+	}
+	return dateStringWithZero, errors.New("wrong")
+
 }
+
 /**
 *  @brief overload the assign operator
-*/
-func (m_date Date) CopyDate (t_date Date) Date {
-    m_date.SetYear(t_date.GetYear())
-    m_date.SetMonth(t_date.GetMonth())
-    m_date.SetDay(t_date.GetDay())
-    m_date.SetHour(t_date.GetHour())
-    m_date.SetMinute(t_date.GetMinute())
-    return m_date
+ */
+func (mDate Date) CopyDate(tDate Date) Date {
+	mDate.SetYear(tDate.GetYear())
+	mDate.SetMonth(tDate.GetMonth())
+	mDate.SetDay(tDate.GetDay())
+	mDate.SetHour(tDate.GetHour())
+	mDate.SetMinute(tDate.GetMinute())
+	return mDate
 }
 
 /**
-* @brief check whether the CurrentDate is equal to the t_date
-*/
-func (m_date Date) IsSameDate(t_date Date) bool {
-    return (t_date.GetYear() == m_date.GetYear() &&
-            t_date.GetMonth() ==  m_date.GetMonth()&&
-            t_date.GetDay() == m_date.GetDay()&&
-            t_date.GetHour() ==  m_date.GetHour()&&
-            t_date.GetMinute() == m_date.GetMinute())
+* @brief check whether the CurrentDate is equal to the tDate
+ */
+func (mDate Date) IsSameDate(tDate Date) bool {
+	return (tDate.GetYear() == mDate.GetYear() &&
+		tDate.GetMonth() == mDate.GetMonth() &&
+		tDate.GetDay() == mDate.GetDay() &&
+		tDate.GetHour() == mDate.GetHour() &&
+		tDate.GetMinute() == mDate.GetMinute())
 }
 
 /**
-* @brief check whether the CurrentDate is  greater than the t_date
-*/
-func (m_date Date) MoreThan (t_date Date) bool {
-    if m_date.Year > t_date.GetYear() {
-        return true
-    }
-    if m_date.Year < t_date.GetYear() {
-        return false
-    }
-    if m_date.Month > t_date.GetMonth() {
-        return true
-    }
-    if m_date.Month < t_date.GetMonth() {
-        return false
-    }
-    if m_date.Day > t_date.GetDay() {
-        return true
-    }
-    if m_date.Day < t_date.GetDay() {
-        return false
-    }
-    if m_date.Hour > t_date.GetHour() { 
-        return true
-    }
-    if m_date.Hour < t_date.GetHour() {
-        return false
-    }
-    if m_date.Minute > t_date.GetMinute() {
-        return true
-    }
-    if m_date.Minute < t_date.GetMinute() {
-        return false
-    }
-    return false
+* @brief check whether the CurrentDate is  greater than the tDate
+ */
+func (mDate Date) MoreThan(tDate Date) bool {
+	if mDate.Year > tDate.GetYear() {
+		return true
+	}
+	if mDate.Year < tDate.GetYear() {
+		return false
+	}
+	if mDate.Month > tDate.GetMonth() {
+		return true
+	}
+	if mDate.Month < tDate.GetMonth() {
+		return false
+	}
+	if mDate.Day > tDate.GetDay() {
+		return true
+	}
+	if mDate.Day < tDate.GetDay() {
+		return false
+	}
+	if mDate.Hour > tDate.GetHour() {
+		return true
+	}
+	if mDate.Hour < tDate.GetHour() {
+		return false
+	}
+	if mDate.Minute > tDate.GetMinute() {
+		return true
+	}
+	if mDate.Minute < tDate.GetMinute() {
+		return false
+	}
+	return false
 }
-func (m_date Date) LessThan (t_date Date) bool {
-    if m_date.IsSameDate(t_date)== false && m_date.MoreThan(t_date)== false {
-        return true
-    }
-    return false
+
+// LessThan : ommited.
+func (mDate Date) LessThan(tDate Date) bool {
+	if mDate.IsSameDate(tDate) == false && mDate.MoreThan(tDate) == false {
+		return true
+	}
+	return false
 }
+
 /**
 * @brief check whether the CurrentDate is  greater or equal than the
-* t_date
-*/
-func (m_date Date) GreateOrEqual(t_date Date) bool {
-    return m_date.IsSameDate(t_date) || m_date.MoreThan(t_date)
+* tDate
+ */
+func (mDate Date) GreateOrEqual(tDate Date) bool {
+	return mDate.IsSameDate(tDate) || mDate.MoreThan(tDate)
 }
+
 /**
 * @brief check whether the CurrentDate is  less than or equal to the
-* t_date
-*/
-func (m_date Date) LessOrEqual(t_date Date) bool {
-    return !m_date.MoreThan(t_date)
+* tDate
+ */
+func (mDate Date) LessOrEqual(tDate Date) bool {
+	return !mDate.MoreThan(tDate)
 }
