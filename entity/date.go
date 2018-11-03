@@ -103,7 +103,6 @@ func IsValid(tDate Date) bool {
 			}
 		}
 	}
-	defer fmt.Println("Error: Invalid Date.")
 	return true
 }
 
