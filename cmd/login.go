@@ -15,41 +15,53 @@
 package cmd
 
 import (
+	"agenda/service"
 	"fmt"
 
 	"github.com/spf13/cobra"
 )
+
 var (
 	username *string
 	password *string
 )
+
 // loginCmd represents the login command
 var loginCmd = &cobra.Command{
 	Use:   "login",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Login",
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// TODO: Work your own magic here
 		fmt.Println("login called")
-		tmp_u, _ := cmd.Flags().GetString("username")
-		tmp_p, _ := cmd.Flags().GetString("password")
-		if tmp_u == "" || tmp_p == "" {
-			fmt.Println("Please input  username and password")
+
+		username, _ := cmd.Flags().GetString("username")
+		password, _ := cmd.Flags().GetString("password")
+		if username == "" {
+			fmt.Println("Please input username")
 			return
 		}
-	
+		if password == "" {
+			fmt.Println("Please input password")
+			return
+		}
+		if _, flag := service.GetCurUser(); flag == true {
+			fmt.Println("Please logout!")
+			return
+		}
+		flag2 := service.UserLogin(username, password)
+		if flag2 == true {
+			fmt.Println("Login Successfully. Username: ", username)
+		} else {
+			fmt.Println("Wrong username or password!")
+		}
+		return
 	},
 }
 
 func init() {
 	RootCmd.AddCommand(loginCmd)
 	username = loginCmd.Flags().StringP("username", "u", "", "Your username")
-    password = loginCmd.Flags().StringP("password", "p","","Your password")
+	password = loginCmd.Flags().StringP("password", "p", "", "Your password")
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command

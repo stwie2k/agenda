@@ -15,6 +15,7 @@
 package cmd
 
 import (
+	"agenda/service"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -23,16 +24,27 @@ import (
 // cancelmeetingCmd represents the cancelmeeting command
 var cancelmeetingCmd = &cobra.Command{
 	Use:   "cancelmeeting",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Cancel a meeting",
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// TODO: Work your own magic here
 		fmt.Println("cancelmeeting called")
+
+		title, _ := cmd.Flags().GetString("title")
+		if title == "" {
+			fmt.Println("Please input the title")
+			return
+		}
+		user, flag := service.GetCurUser()
+		if flag == false {
+			fmt.Println("Please login!")
+		} else {
+			flag2 := service.DeleteMeeting(user.Name, title)
+			if flag2 == 0 {
+				fmt.Println("Error! You're not a sponsor of the meeting")
+			} else {
+				fmt.Println("Delete Successfully")
+			}
+		}
 	},
 }
 

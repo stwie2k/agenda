@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
-	// "agenda-go-cli/loghelper"
+	// "agenda/loghelper"
 )
 
 // Date : class with y, m, d, h and m
@@ -169,7 +169,7 @@ func DateToString(tDate Date) (string, error) {
 	// 	":" + Int2String(tDate.GetMinute())
 
 	dateStringWithZero := fmt.Sprintf("%04d", tDate.GetYear()) + "-" + fmt.Sprintf("%02d", tDate.GetMonth()) +
-		"-" + fmt.Sprintf("%02d", tDate.GetDay()) + "/" + fmt.Sprintf("%02d", tDate.GetHour()) + 
+		"-" + fmt.Sprintf("%02d", tDate.GetDay()) + "/" + fmt.Sprintf("%02d", tDate.GetHour()) +
 		":" + fmt.Sprintf("%02d", tDate.GetMinute())
 
 	if dateStringWithZero != wString {

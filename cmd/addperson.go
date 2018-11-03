@@ -11,10 +11,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+// test
 
 package cmd
 
 import (
+	"agenda/service"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -23,16 +25,32 @@ import (
 // addpersonCmd represents the addperson command
 var addpersonCmd = &cobra.Command{
 	Use:   "addperson",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Add participators to a meeting",
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// TODO: Work your own magic here
 		fmt.Println("addperson called")
+
+		title, _ := cmd.Flags().GetString("title")
+		participators, _ := cmd.Flags().GetStringSlice("participator")
+		if title == "" {
+			fmt.Println("Please input the title")
+			return
+		}
+		if len(participators) == 0 {
+			fmt.Println("Please input the participators")
+			return
+		}
+		if user, flag := service.GetCurUser(); flag != true {
+			fmt.Println("Please login!")
+		} else {
+			flag := service.AddMeetingParticipator(user.Name, title, participators)
+			if flag == true {
+				fmt.Println("Add participators success!")
+			} else {
+				fmt.Println("Error!")
+			}
+		}
+
 	},
 }
 
