@@ -27,37 +27,37 @@ var registerCmd = &cobra.Command{
 	Short: "register user",
 
 	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("Register called")
 
 		username, _ := cmd.Flags().GetString("username")
 		if username == "" {
 			fmt.Println("Please input username[-u]")
 			return
 		}
-		fmt.Println("Register called by " + username)
 
 		password, _ := cmd.Flags().GetString("password")
 		emial, _ := cmd.Flags().GetString("email")
 		phone, _ := cmd.Flags().GetString("phonenumber")
 		if password == "" || emial == "" || phone == "" {
-			fmt.Println("Please input password[-p] and email [-e] and phone [-n}")
+			fmt.Println("Please input password[-p] and email[-e] and phone[-n}")
 			return
 		}
 
-		succ, err := service.UserRegister(username, password, emial, phone)
-		if(succ == false){
+		succ, _ := service.UserRegister(username, password, emial, phone)
+		if succ == true {
+			fmt.Println("Register success!")
+		} else {
 			fmt.Println("Username existed!")
-			return
 		}
-		else fmt.Println("Register success!")
 	},
 }
 
 func init() {
 	RootCmd.AddCommand(registerCmd)
 	registerCmd.Flags().StringP("username", "u", "Anonymous", "Your username")
-	registerCmd.Flags().StringP("password", "p", "", "Your password to login")
-	registerCmd.Flags().StringP("email", "e", "", "your email address")
-	registerCmd.Flags().StringP("phonenumber", "n", "", "your cellphone number")
+	registerCmd.Flags().StringP("password", "p", "", "Your password")
+	registerCmd.Flags().StringP("email", "e", "", "Your email address")
+	registerCmd.Flags().StringP("phonenumber", "n", "", "Your cellphone number")
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command

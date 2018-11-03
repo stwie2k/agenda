@@ -25,11 +25,13 @@ import (
 // addpersonCmd represents the addperson command
 var addpersonCmd = &cobra.Command{
 	Use:   "addperson",
-	Short: "add participators to a meeting",
+	Short: "Add participators to a meeting",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		participators, _ := cmd.Flags().GetStringSlice("participator")
+		fmt.Println("addperson called")
+
 		title, _ := cmd.Flags().GetString("title")
+		participators, _ := cmd.Flags().GetStringSlice("participator")
 		if title == "" {
 			fmt.Println("Please input the title")
 			return
@@ -40,15 +42,15 @@ var addpersonCmd = &cobra.Command{
 		}
 		if user, flag := service.GetCurUser(); flag != true {
 			fmt.Println("Please login!")
-		}
-		else {
-			flag := service.AddMeetingParticipator(user.name, title, participators)
+		} else {
+			flag := service.AddMeetingParticipator(user.Name, title, participators)
 			if flag == true {
-				fmt.Println("add participators success!")
+				fmt.Println("Add participators success!")
+			} else {
+				fmt.Println("Error!")
 			}
-			else fmt.println("Error!")
 		}
-		
+
 	},
 }
 
