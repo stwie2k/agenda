@@ -87,7 +87,7 @@ username (-u --user)
 开始时间(-s --starttime)
 结束时间(-e --endtime)
 
-###  deletemeeting
+###  cancelmeeting
 > 取消某个会议
 
 参数列表
@@ -115,3 +115,42 @@ username (-u --user)
 
 会议标题(-t --title)
 参与者(-p --participator)
+
+
+## 测试结果
+
+ - regester注册用户
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20181104003343369.png)
+
+- login登录
+-![在这里插入图片描述](https://img-blog.csdnimg.cn/20181104003445979.png)
+- logout登出
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20181104003634591.png)
+
+- queryuser查询用户
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20181104003709962.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21pcmFjbGUzMw==,size_16,color_FFFFFF,t_70)
+
+
+- deleteuser删除用户
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20181104003744662.png)
+
+- createmeeting创建会议
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20181104003909942.png)
+
+
+- querymeeting 查询会议
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20181104003932768.png)
+
+- deletemeeting删除会议
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20181104004120415.png)
+
+- addperson 添加参加会议者
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20181104004159465.png)
+
+
+- deleteperson删除参加会议者
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20181104004222371.png)
+
+- quitmeeting退出会议
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20181104004551831.png)
+
