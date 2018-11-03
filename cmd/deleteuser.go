@@ -15,6 +15,7 @@
 package cmd
 
 import (
+	"agenda/service"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -23,16 +24,22 @@ import (
 // deleteuserCmd represents the deleteuser command
 var deleteuserCmd = &cobra.Command{
 	Use:   "deleteuser",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Delete current user",
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// TODO: Work your own magic here
 		fmt.Println("deleteuser called")
+
+		user, flag := service.GetCurUser()
+		if flag == false {
+			fmt.Println("Please login!")
+		} else {
+			flag2 := service.DeleteUser(user.Name)
+			if flag2 == true {
+				fmt.Println("Successfully Delete")
+			} else {
+				fmt.Println("Error!")
+			}
+		}
 	},
 }
 
