@@ -42,7 +42,7 @@ var cancelmeetingCmd = &cobra.Command{
 			if flag2 == 0 {
 				fmt.Println("Error! You're not a sponsor of the meeting")
 			} else {
-				fmt.Println("Delete Successfully")
+				fmt.Println("Cancel Successfully")
 			}
 		}
 	},
@@ -52,6 +52,7 @@ func init() {
 	RootCmd.AddCommand(cancelmeetingCmd)
 
 	// Here you will define your flags and configuration settings.
+	cancelmeetingCmd.Flags().StringP("title", "t", "", "the title of meeting")
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:

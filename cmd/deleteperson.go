@@ -57,6 +57,8 @@ func init() {
 	RootCmd.AddCommand(deletepersonCmd)
 
 	// Here you will define your flags and configuration settings.
+	deletepersonCmd.Flags().StringP("title", "t", "", "the title of the meeting")
+	deletepersonCmd.Flags().StringSliceP("participator", "p", nil, "the participators of the meeting, such as \"name1, name2\"")
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:

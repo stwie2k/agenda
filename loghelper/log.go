@@ -6,20 +6,21 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"runtime"
 	"strings"
+	"runtime"
 )
 
 var (
 	// Info : Discard
-	Info *log.Logger
+	Info    *log.Logger
 	// Warning : Stdout
 	Warning *log.Logger
 	// Error : Stderr
-	Error *log.Logger
+	Error   *log.Logger
 
 	// GoPath : GoPath
 	GoPath string
+
 )
 
 var errlog, infolog *os.File
@@ -60,19 +61,19 @@ func init() {
 }
 
 // Free : close log file
-func Free() {
+func Free()  {
 	errlog.Close()
 	infolog.Close()
 }
 
-func getLogFile(path string) *os.File {
+func getLogFile(path string) *os.File  {
 	logPath := filepath.Join(GoPath, path)
 
 	file, err := os.OpenFile(logPath, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("file open error : %v\n", err)
 	}
-	return file
+	return file;
 	// defer file.Close()
 }
 

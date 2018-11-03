@@ -34,7 +34,9 @@ func UserRegister(_name string, password string, email string, phone string) (bo
 		return false, nil
 	}
 	entity.CreateUser(&entity.User{_name, password, email, phone})
-
+	if err := entity.Sync(); err != nil {
+		return true, err
+	}
 	return true, nil
 }
 

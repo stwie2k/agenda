@@ -53,7 +53,7 @@ var querymeetingCmd = &cobra.Command{
 					fmt.Println("End Time", et)
 					fmt.Printf("Participators: ")
 					for _, p := range m.Participators {
-						fmt.Printf(p, " ")
+						fmt.Printf("%s ", p)
 					}
 					fmt.Printf("\n")
 					fmt.Println("----------------")
@@ -67,6 +67,9 @@ func init() {
 	RootCmd.AddCommand(querymeetingCmd)
 
 	// Here you will define your flags and configuration settings.
+
+	querymeetingCmd.Flags().StringP("starttime", "s", "", "the start time of the meeting")
+	querymeetingCmd.Flags().StringP("endtime", "e", "", "the end time of the meeting")
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:

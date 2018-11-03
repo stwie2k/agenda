@@ -63,6 +63,10 @@ func init() {
 	RootCmd.AddCommand(createmeetingCmd)
 
 	// Here you will define your flags and configuration settings.
+	createmeetingCmd.Flags().StringP("title", "t", "", "the title of meeting")
+	createmeetingCmd.Flags().StringSliceP("participator", "p", nil, "the participator of the meeting, such as \"name1, name2\"")
+	createmeetingCmd.Flags().StringP("starttime", "s", "", "the start time of the meeting")
+	createmeetingCmd.Flags().StringP("endtime", "e", "", "the end time of the meeting")
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
