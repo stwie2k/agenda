@@ -209,6 +209,9 @@ func CreateMeeting(_name string, title string, startDate string, endDate string,
 
 //@param username and meeting title
 func DeleteMeeting(_name string, title string) int {
+	if err := entity.Sync(); err != nil {
+		return false
+	}
 	return entity.DeleteMeeting(func(m *entity.Meeting) bool {
 		return m.Sponsor == _name && m.Title == title
 	})
@@ -271,6 +274,11 @@ func QuitMeeting(_name string, title string) bool {
 	entity.DeleteMeeting(func(m *entity.Meeting) bool {
 		return len(m.GetParticipator()) == 0
 	})
+	
+	if err := entity.Sync(); err != nil {
+		return false
+	}
+	
 	return true
 }
 
