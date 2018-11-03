@@ -8,8 +8,8 @@ import (
 	"errors"
 	"log"
 	"encoding/json"
-	"agenda-go-cli/loghelper"
-	"agenda-go-cli/deepcopy"
+	"agenda/loghelper"
+	"agenda/deepcopy"
 )
 
 // UserFilter : UserFilter types take an *User and return a bool value.
@@ -17,9 +17,9 @@ type UserFilter func (*User) bool
 // MeetingFilter : MeetingFilter types take an *User and return a bool value.
 type MeetingFilter func (*Meeting) bool
 
-var userinfoPath = "/src/agenda-go-cli/data/userinfo"
-var metinfoPath = "/src/agenda-go-cli/data/meetinginfo"
-var curUserPath = "/src/agenda-go-cli/data/curUser.txt"
+var userinfoPath = "/src/agenda/data/userinfo"
+var metinfoPath = "/src/agenda/data/meetinginfo"
+var curUserPath = "/src/agenda/data/curUser.txt"
 
 var curUserName *string;
 
