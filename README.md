@@ -82,17 +82,36 @@ username (-u --user)
 ###  querymeeting
 > 查询某个时段的会议
 
-参数列表：空
+参数列表
 
-###  cancelmeeting
+开始时间(-s --starttime)
+结束时间(-e --endtime)
+
+###  deletemeeting
 > 取消某个会议
+
+参数列表
+
+会议标题(-t --title)
 
 ### quitmeeting
 > 退出某个会议
+
+参数列表
+
+会议标题(-t --title)
 
 
 ### addperson
 > 添加一个与会者
 
+参数列表
+
+会议标题(-t --title)
+参与者(-p --participator)
+
 ### deleteperson
 > 删除一个与会者
+
+会议标题(-t --title)
+参与者(-p --participator)
