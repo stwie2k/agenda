@@ -33,7 +33,7 @@ func UserRegister(_name string, password string, email string, phone string) (bo
 		Log.Println("User Register: Already exist username")
 		return false, nil
 	}
-	entity.CreateUser(entity.User{_name, password, email, phone})
+	entity.CreateUser(&entity.User{_name, password, email, phone})
 
 	return true, nil
 }
@@ -77,7 +77,7 @@ func UserLogin(_name string, _pw string) bool {
 		Log.Println("			  Please contact us!")
 		return false
 	}
-	entity.SetCurUser(&user[0])
+	entity.SetCurUser(&userList[0])
 	if err := entity.Sync(); err != nil {
 		Log.Println("Login failed: Syncing went wrong")
 		return false
@@ -237,13 +237,13 @@ func QueryMeeting(_name string, startDate string, endDate string) ([]entity.Meet
 
 	m := entity.QueryMeeting(func(temp *entity.Meeting) bool {
 		if temp.Sponsor == _name || temp.IsParticipator(_name) {
-			if temp.StartDate.LessOrEqual(sTime) && temp.EndDate.MoreThan(sTime) {
+			if temp.StartDate.LessOrEqual(startTime) && temp.EndDate.MoreThan(startTime) {
 				return true
 			}
-			if temp.StartDate.LessOrEqual(eTime) && temp.EndDate.GreateOrEqual(eTime) {
+			if temp.StartDate.LessOrEqual(endTime) && temp.EndDate.GreateOrEqual(endTime) {
 				return true
 			}
-			if temp.StartDate.GreateOrEqual(sTime) && temp.EndDate.LessOrEqual(eTime) {
+			if temp.StartDate.GreateOrEqual(startTime) && temp.EndDate.LessOrEqual(endTime) {
 				return true
 			}
 		}
