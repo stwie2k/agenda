@@ -1,27 +1,29 @@
 package entity
 
 import (
-	"os"
-	"io"
-	"bufio"
-	"path/filepath"
-	"errors"
-	"log"
-	"encoding/json"
-	"agenda/loghelper"
+	"fmt"
 	"agenda/deepcopy"
+	"agenda/loghelper"
+	"bufio"
+	"encoding/json"
+	"errors"
+	"io"
+	"log"
+	"os"
+	"path/filepath"
 )
 
 // UserFilter : UserFilter types take an *User and return a bool value.
-type UserFilter func (*User) bool
+type UserFilter func(*User) bool
+
 // MeetingFilter : MeetingFilter types take an *User and return a bool value.
-type MeetingFilter func (*Meeting) bool
+type MeetingFilter func(*Meeting) bool
 
 var userinfoPath = "/src/agenda/data/userinfo"
 var metinfoPath = "/src/agenda/data/meetinginfo"
 var curUserPath = "/src/agenda/data/curUser.txt"
 
-var curUserName *string;
+var curUserName *string
 
 var dirty bool
 
@@ -30,7 +32,7 @@ var mData []Meeting
 
 var errLog *log.Logger
 
-func init()  {
+func init() {
 	errLog = loghelper.Error
 	dirty = false
 	userinfoPath = filepath.Join(loghelper.GoPath, userinfoPath)
@@ -56,7 +58,6 @@ func Sync() error {
 	return nil
 }
 
-
 // CreateUser : create a user
 // @param a user object
 func CreateUser(v *User) {
@@ -81,7 +82,7 @@ func QueryUser(filter UserFilter) []User {
 // @param a lambda function as the filter
 // @param a lambda function as the method to update the user
 // @return the number of updated users
-func UpdateUser(filter UserFilter, switcher func (*User)) int {
+func UpdateUser(filter UserFilter, switcher func(*User)) int {
 	count := 0
 	for i := 0; i < len(uData); i++ {
 		if v := &uData[i]; filter(v) {
@@ -134,14 +135,14 @@ func QueryMeeting(filter MeetingFilter) []Meeting {
 			met = append(met, v)
 		}
 	}
-	return met;
+	return met
 }
 
 // UpdateMeeting : update meetings
 // @param a lambda function as the filter
 // @param a lambda function as the method to update the meeting
 // @return the number of updated meetings
-func UpdateMeeting(filter MeetingFilter, switcher func (*Meeting)) int {
+func UpdateMeeting(filter MeetingFilter, switcher func(*Meeting)) int {
 	count := 0
 	for i := 0; i < len(mData); i++ {
 		if v := &mData[i]; filter(v) {
@@ -199,7 +200,7 @@ func SetCurUser(u *User) {
 		curUserName = nil
 		return
 	}
-	if (curUserName == nil) {
+	if curUserName == nil {
 		p := u.Name
 		curUserName = &p
 	} else {
@@ -235,6 +236,7 @@ func readFromFile() error {
 // writeToFile : write file content from memory
 // @return if fail, error will be returned
 func writeToFile() error {
+	fmt.Print("writing file at writetofile.")
 	var e []error
 	if err := writeString(curUserPath, curUserName); err != nil {
 		e = append(e, err)
@@ -258,7 +260,7 @@ func writeToFile() error {
 }
 
 func readUser() error {
-	file, err := os.Open(userinfoPath);
+	file, err := os.Open(userinfoPath)
 	if err != nil {
 		errLog.Println("Open File Fail:", userinfoPath, err)
 		return err
@@ -276,7 +278,7 @@ func readUser() error {
 }
 
 func readMet() error {
-	file, err := os.Open(metinfoPath);
+	file, err := os.Open(metinfoPath)
 	if err != nil {
 		errLog.Println("Open File Fail:", metinfoPath, err)
 		return err
@@ -294,7 +296,7 @@ func readMet() error {
 }
 
 func writeJSON(fpath string, data interface{}) error {
-	file, err := os.Create(fpath);
+	file, err := os.Create(fpath)
 	if err != nil {
 		return err
 	}
@@ -340,11 +342,10 @@ func readString(path string) (*string, error) {
 	defer file.Close()
 
 	reader := bufio.NewReader(file)
-	str, err := reader.ReadString('\n');
+	str, err := reader.ReadString('\n')
 	if err != nil && err != io.EOF {
 		loghelper.Error.Println("Read file fail:", path)
 		return nil, err
 	}
 	return &str, nil
 }
-
