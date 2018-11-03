@@ -1,12 +1,12 @@
 package entity
 
 import (
-	"fmt"
 	"agenda/deepcopy"
 	"agenda/loghelper"
 	"bufio"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -236,7 +236,7 @@ func readFromFile() error {
 // writeToFile : write file content from memory
 // @return if fail, error will be returned
 func writeToFile() error {
-	fmt.Print("writing file at writetofile.")
+	fmt.Println("writing file at writetofile.")
 	var e []error
 	if err := writeString(curUserPath, curUserName); err != nil {
 		e = append(e, err)

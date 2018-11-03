@@ -68,6 +68,9 @@ func init() {
 
 	// Here you will define your flags and configuration settings.
 
+	querymeetingCmd.Flags().StringP("starttime", "s", "", "the start time of the meeting")
+	querymeetingCmd.Flags().StringP("endtime", "e", "", "the end time of the meeting")
+
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
 	// querymeetingCmd.PersistentFlags().String("foo", "", "A help for foo")

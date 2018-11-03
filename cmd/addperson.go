@@ -58,7 +58,8 @@ func init() {
 	RootCmd.AddCommand(addpersonCmd)
 
 	// Here you will define your flags and configuration settings.
-
+	addpersonCmd.Flags().StringSliceP("participator", "p", nil, "the participators of meeting, such as \"name1, name2\"")
+	addpersonCmd.Flags().StringP("title", "t", "", "the title of meeting")
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
 	// addpersonCmd.PersistentFlags().String("foo", "", "A help for foo")

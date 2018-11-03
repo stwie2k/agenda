@@ -47,6 +47,7 @@ func init() {
 	RootCmd.AddCommand(clearmeetingCmd)
 
 	// Here you will define your flags and configuration settings.
+	clearmeetingCmd.Flags().StringP("title", "t", "", "the title of meeting")
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
