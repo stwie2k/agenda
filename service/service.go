@@ -302,18 +302,6 @@ func ClearMeeting(_name string) (int, bool) {
 
 func AddMeetingParticipator(_name string, title string, participators []string) bool {
 
-	meetings := entity.UpdateMeeting(func(m *entity.Meeting) bool {
-		return m.Sponsor == _name && m.Title == title
-	}, func(m *entity.Meeting) {
-		for _, p := range participators {
-			m.AddParticipator(p)
-		}
-	})
-	if meetings == 0 {
-		Log.Println("Add participator failed: No such meeting")
-		return false
-	}
-
 	for _, p := range participators {
 		uc := entity.QueryUser(func(u *entity.User) bool {
 			return u.Name == p
@@ -329,6 +317,18 @@ func AddMeetingParticipator(_name string, title string, participators []string) 
 			Log.Println("Add participator failed: User ", p, " is already in meeting")
 			return false
 		}
+	}
+	
+	meetings := entity.UpdateMeeting(func(m *entity.Meeting) bool {
+		return m.Sponsor == _name && m.Title == title
+	}, func(m *entity.Meeting) {
+		for _, p := range participators {
+			m.AddParticipator(p)
+		}
+	})
+	if meetings == 0 {
+		Log.Println("Add participator failed: No such meeting")
+		return false
 	}
 
 	if err := entity.Sync(); err != nil {
