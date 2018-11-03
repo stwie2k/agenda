@@ -40,9 +40,8 @@ func UserRegister(_name string, password string, email string, phone string) (bo
 //@param username
 func DeleteUser(_name string) bool {
 	entity.DeleteUser(func (u *entity.User) bool {
-		if ( u.Name == _name ) return true;
-		return false
-	}
+		return u.Name == _name
+	})
 	entity.UpdateMeeting(
 		func(m *entity.Meeting) bool {
 			return m.IsParticipator(_name)
