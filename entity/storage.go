@@ -8,8 +8,8 @@ import (
 	"errors"
 	"log"
 	"encoding/json"
-	"agenda-go-cli/loghelper"
-	"agenda-go-cli/deepcopy"
+	"agenda/loghelper"
+
 )
 
 // UserFilter : UserFilter types take an *User and return a bool value.
