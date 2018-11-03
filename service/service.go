@@ -211,12 +211,16 @@ func CreateMeeting(_name string, title string, startDate string, endDate string,
 
 //@param username and meeting title
 func DeleteMeeting(_name string, title string) int {
-	if err := entity.Sync(); err != nil {
-		return false
-	}
-	return entity.DeleteMeeting(func(m *entity.Meeting) bool {
+
+	meetings := entity.DeleteMeeting(func(m *entity.Meeting) bool {
 		return m.Sponsor == _name && m.Title == title
 	})
+	
+	if err := entity.Sync(); err != nil {
+		return 0
+	}
+	
+	return meetings
 }
 
 //@param Sponsor username and meeting start date,end date
