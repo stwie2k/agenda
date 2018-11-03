@@ -15,6 +15,7 @@
 package cmd
 
 import (
+	"agenda/service"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -23,41 +24,40 @@ import (
 // registerCmd represents the register command
 var registerCmd = &cobra.Command{
 	Use:   "register",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "register user",
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// TODO: Work your own magic here
-		
-		username,_:=cmd.Flags().GetString("username")
-	   if(username ==""){
-		fmt.Println("Please input username[-u]")
-		return
-	   }
-		fmt.Println("Register called by "+username)
 
-		password,_:=cmd.Flags().GetString("password")
-		emial, _ := cmd.Flags().GetString("email")
-        phone, _:= cmd.Flags().GetString("phonenumber")
-		if(password =="" ||emial==""||phone==""){
-			fmt.Println("Please input password[-p] and email [-e] and phone [-n}" )
+		username, _ := cmd.Flags().GetString("username")
+		if username == "" {
+			fmt.Println("Please input username[-u]")
 			return
-		   }
+		}
+		fmt.Println("Register called by " + username)
 
-		   
+		password, _ := cmd.Flags().GetString("password")
+		emial, _ := cmd.Flags().GetString("email")
+		phone, _ := cmd.Flags().GetString("phonenumber")
+		if password == "" || emial == "" || phone == "" {
+			fmt.Println("Please input password[-p] and email [-e] and phone [-n}")
+			return
+		}
+
+		succ, err := service.UserRegister(username, password, emial, phone)
+		if(succ == false){
+			fmt.Println("Username existed!")
+			return
+		}
+		else fmt.Println("Register success!")
 	},
 }
 
 func init() {
 	RootCmd.AddCommand(registerCmd)
-	 registerCmd.Flags().StringP("username", "u", "Anonymous", "Your username")
-	 registerCmd.Flags().StringP("password", "p", "", "Your password to login")
-	 registerCmd.Flags().StringP("email", "e", "","your email address")
-     registerCmd.Flags().StringP("phonenumber","n", "","your cellphone number")
+	registerCmd.Flags().StringP("username", "u", "Anonymous", "Your username")
+	registerCmd.Flags().StringP("password", "p", "", "Your password to login")
+	registerCmd.Flags().StringP("email", "e", "", "your email address")
+	registerCmd.Flags().StringP("phonenumber", "n", "", "your cellphone number")
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command

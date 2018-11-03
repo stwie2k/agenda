@@ -19,10 +19,12 @@ import (
 
 	"github.com/spf13/cobra"
 )
+
 var (
 	username *string
 	password *string
 )
+
 // loginCmd represents the login command
 var loginCmd = &cobra.Command{
 	Use:   "login",
@@ -36,20 +38,20 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// TODO: Work your own magic here
 		fmt.Println("login called")
-		tmp_u, _ := cmd.Flags().GetString("username")
-		tmp_p, _ := cmd.Flags().GetString("password")
-		if tmp_u == "" || tmp_p == "" {
+		username, _ := cmd.Flags().GetString("username")
+		password, _ := cmd.Flags().GetString("password")
+		if username == "" || password == "" {
 			fmt.Println("Please input  username and password")
 			return
 		}
-	
+
 	},
 }
 
 func init() {
 	RootCmd.AddCommand(loginCmd)
 	username = loginCmd.Flags().StringP("username", "u", "", "Your username")
-    password = loginCmd.Flags().StringP("password", "p","","Your password")
+	password = loginCmd.Flags().StringP("password", "p", "", "Your password")
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
